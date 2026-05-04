@@ -10,7 +10,6 @@ import random
 import requests
 
 
-
 # + ----------------------------- +
 # Settings and Constants
 # + ----------------------------- +
@@ -26,8 +25,8 @@ parallax scrolling speed, player head size, block size, and colors used in the g
 SCREEN_W, SCREEN_H = 1280, 720
 
 # Background and animation settings
-SCROLL_SPEED = 1.5
-GAME_SPEED = 5 # Speed for pipes and grass
+SCROLL_SPEED = 3
+GAME_SPEED = 4 # Speed for pipes and grass
 FADE_SPEED = 4
 FPS = 60
 IMAGE_FOLDER = "panoramas"
@@ -244,8 +243,32 @@ def main():
     font = pygame.font.SysFont("Arial", 40, bold=True)
     title_font = pygame.font.SysFont("Arial", 60, bold=True)
 
+    # Set the Application Icon
+    icon_path = "assets/icon.png"
+
+    # Set the font path
+    font_path = "assets/Minecraft.ttf"
+
+    if os.path.exists(font_path):
+        # If the file is there, use the Minecraft font!
+        font = pygame.font.Font(font_path, 40)
+        title_font = pygame.font.Font(font_path, 60)
+    else:
+        # If the file is missing, use Arial as a backup so the game doesn't crash!
+        print(f"Could not load font: '{font_path}' is missing! Using Arial instead.")
+        font = pygame.font.SysFont("Arial", 40, bold=True)
+        title_font = pygame.font.SysFont("Arial", 60, bold=True)
+    
+    # Check if the file actually exists before trying to load it
+    if os.path.exists(icon_path):
+        icon_img = pygame.image.load(icon_path).convert_alpha()
+        pygame.display.set_icon(icon_img)
+    else:
+        print("Could not load icon: 'assets/icon.png' is missing!")
+
     # Load random music at the start of the game
     load_random_music()
+    
 
     # Load assets here so display exists first
     try:
@@ -272,10 +295,10 @@ def main():
         pipe_bottom_img = pygame.transform.flip(pipe_img, False, True)
 
         # Load Mob Images (animal1.png through animal10.png)
-        mob_images = []
+    mob_images = []
     
         # Loop from 1 to 10
-    for i in range(1, 11):
+    for i in range(1, 16):
         filename = f"animal{i}.png"
         try:
             # Load the image from the assets folder
@@ -321,10 +344,10 @@ def main():
     create_block_timer = pygame.USEREVENT + 1
 
     # Menu Buttons
-    btn_w, btn_h = 250, 60
+    btn_w, btn_h = 300, 60
     btn_x = SCREEN_W // 2 - btn_w // 2
     play_button = pygame.Rect(btn_x, 300, btn_w, btn_h)
-    options_button = pygame.Rect(btn_x, 380, btn_w, btn_h)
+
     
     # Game Over Buttons
     reset_button = pygame.Rect(btn_x, 350, btn_w, btn_h)
@@ -361,8 +384,6 @@ def main():
                         menu_active = False
                         game_active = True
                         pygame.time.set_timer(create_block_timer, 1500)
-                    if options_button.collidepoint(event.pos):
-                        print("Options clicked! (Implement settings here)")
 
             # Process input specifically for gameplay
             elif game_active:
@@ -376,10 +397,10 @@ def main():
                 if event.type == create_block_timer:
                     gap_y = random.randint(150, SCREEN_H - 400)
                     
-                    # 1. Top Pipe (No mob)
+                    # Top Pipe (No mob)
                     blocks.append(Block(SCREEN_W, gap_y - BLOCK_H, pipe_img))
                     
-                    # 2. Bottom Pipe (With random mob)
+                    # Bottom Pipe (With random mob)
                     # Pick a random mob if the list isn't empty, otherwise None
                     chosen_mob = random.choice(mob_images) if mob_images else None
                     
@@ -455,10 +476,6 @@ def main():
             pygame.draw.rect(window, WHITE if play_button.collidepoint(mouse_pos) else GRAY, play_button)
             play_text = font.render("PLAY", True, BLACK if play_button.collidepoint(mouse_pos) else WHITE)
             window.blit(play_text, (play_button.x + 75, play_button.y + 7))
-
-            pygame.draw.rect(window, WHITE if options_button.collidepoint(mouse_pos) else GRAY, options_button)
-            opt_text = font.render("OPTIONS", True, BLACK if options_button.collidepoint(mouse_pos) else WHITE)
-            window.blit(opt_text, (options_button.x + 40, options_button.y + 7))
 
         elif game_active or game_over_active:
             # Draw blocks and mobs
