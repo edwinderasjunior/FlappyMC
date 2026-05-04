@@ -38,6 +38,9 @@ WHITE, BLACK, GRAY = (255, 255, 255), (0, 0, 0), (50, 50, 50)
 # Initialize pygame
 pygame.init()
 
+# Set up the music folder path
+MUSIC_FOLDER = "assets"
+
 # + ----------------------------- +
 # Classes
 # + ----------------------------- +
@@ -144,6 +147,15 @@ class Block(pygame.Rect):
 # Functions
 # + ----------------------------- +
 
+# This function loads random music everytime the game starts
+def load_random_music():
+    track = f"music{str(random.randint(1, 34)).zfill(2)}.mp3"
+    path = os.path.join(MUSIC_FOLDER, track)
+    if os.path.exists(path):
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.play(-1)
+
+
 # This function loads a Minecraft skin from the Minotar API
 def get_minecraft_skin(username):
     url = f"https://minotar.net/avatar/{username}/{PLAYER_HEAD_W}"
@@ -173,9 +185,12 @@ def main():
     global window, clock, font
 
     window = pygame.display.set_mode((SCREEN_W, SCREEN_H))
-    pygame.display.set_caption("Flappy Bird")
+    pygame.display.set_caption("FlappyMC - Minecraft-themed Flappy Bird")
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("Arial", 40, bold=True)
+
+    # Load random music at the start of the game
+    load_random_music() 
 
     # Load assets here so display exists first
     try:
@@ -278,6 +293,8 @@ def main():
 
             pygame.display.update()
             clock.tick(FPS)
+
+    
 
 
 # This ensures that the main function is called when the script is executed directly
