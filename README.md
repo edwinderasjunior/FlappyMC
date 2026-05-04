@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🟩 FlappyMC 🟩  
-**A Minecraft-themed Arcade Engine built from scratch in Python**
+**A Minecraft-themed Flappy Bird built in Python**
 
 </div>
 
