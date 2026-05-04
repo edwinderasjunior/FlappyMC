@@ -37,13 +37,18 @@ git clone https://github.com/YourUsername/FlappyMC.git
 cd FlappyMC
 ```
 
-### 2. Install dependencies
+### 2. Create a virtual environment
+```bash
+python -m venv flappyenv
+```
+
+### 3. Install dependencies
 Make sure you have Python 3 installed, then run:
 ```bash
 pip install pygame requests
 ```
 
-### 3. Run the game
+### 4. Run the game
 ```bash
 python flappymc.py
 ```

@@ -120,7 +120,7 @@ class PanoramicFader:
 
         elif self.state == "FADE_OUT":
             # Continue sliding slowly while fading for a natural feel
-            self.img_x -= (SCROLL_SPEED * 0.2)
+            self.img_x -= (SCROLL_SPEED * 0.8)
             self.fade_alpha += FADE_SPEED
             if self.fade_alpha >= 255:
                 self.fade_alpha = 255
@@ -328,7 +328,7 @@ def main():
     # Load jump sound effect
     try:
         jump_sound = pygame.mixer.Sound("assets/jump.wav")
-        jump_sound.set_volume(0.5)
+        jump_sound.set_volume(1.0)
     except Exception as e:
         print(f"jump_sound error: {e}")
         jump_sound = None
@@ -483,12 +483,12 @@ def main():
                 # 1. Draw the main pipe
                 window.blit(b.image, b.topleft)
                 
-                # 2. If this block has an animal, draw it in the exact same spot!
-                # Because the top 120px of the pipe are transparent, it will fit perfectly.
+                # If this block has an animal, draw it in the exact same spot
+                # 
                 if b.mob_image:
                     window.blit(b.mob_image, b.topleft)
 
-            # Draw grass (Drawn at Y = 0 because it fills the whole screen)
+            # Draw grass 
             grass_x = int(scroll * GRASS_SPEED) % SCREEN_W
             window.blit(grass, (-grass_x, 0))
             window.blit(grass, (SCREEN_W - grass_x, 0))
