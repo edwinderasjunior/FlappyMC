@@ -10,6 +10,17 @@ import random
 import requests
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+# Example usage in your code:
+# bird_img = pygame.image.load(resource_path('assets/bird.png'))
+
 # + ----------------------------- +
 # Settings and Constants
 # + ----------------------------- +
